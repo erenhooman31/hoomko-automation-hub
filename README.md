@@ -4,7 +4,7 @@
 
 ## لینک ها
 
-- نسخه آنلاین: https://hoomko-automation-ftpliuyfw-sealand1.vercel.app
+- نسخه آنلاین: https://hoomko-automation-hub.vercel.app
 - مخزن GitHub: https://github.com/erenhooman31/hoomko-automation-hub
 
 ## قابلیت ها
