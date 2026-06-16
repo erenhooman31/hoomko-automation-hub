@@ -111,6 +111,10 @@ h2 {
   margin-top: 18px;
 }
 
+.content-grid.single {
+  grid-template-columns: 1fr 1fr;
+}
+
 .panel {
   min-width: 0;
   padding: 22px;
@@ -253,6 +257,84 @@ dd {
   color: #9a5b00;
 }
 
+.recipe {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.recipe-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 8px;
+  background: #f8fbfc;
+}
+
+.recipe-step span {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 50%;
+  background: #0f766e;
+  color: #fff;
+}
+
+.api-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.api-card {
+  display: grid;
+  gap: 12px;
+}
+
+.api-card span {
+  color: #0f766e;
+  font-weight: 900;
+}
+
+.api-card p {
+  color: #64748b;
+}
+
+.report-panel {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.report-bars {
+  display: grid;
+  gap: 14px;
+}
+
+.report-bars div {
+  display: grid;
+  grid-template-columns: 170px 1fr 56px;
+  align-items: center;
+  gap: 12px;
+}
+
+.report-bars i {
+  height: 10px;
+  border-radius: 999px;
+  background: #e5edf1;
+  overflow: hidden;
+}
+
+.report-bars b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0f766e, #38bdf8);
+}
+
 @media (max-width: 920px) {
   .hero-grid,
   nav,
@@ -264,6 +346,12 @@ dd {
 
   .content-grid {
     display: grid;
+  }
+
+  .content-grid.single,
+  .api-grid,
+  .report-bars div {
+    grid-template-columns: 1fr;
   }
 
   .canvas {

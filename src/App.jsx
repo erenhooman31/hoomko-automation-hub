@@ -15,6 +15,46 @@ const logs = [
   ['09:21', 'ارسال پیامک خوش آمدگویی', 'در انتظار'],
 ]
 
+const apiServices = [
+  ['CRM', 'ارسال لید و وضعیت پیگیری', 'REST'],
+  ['Payment', 'ثبت پرداخت موفق و ناموفق', 'Webhook'],
+  ['SMS', 'ارسال پیامک تراکنشی', 'API Key'],
+  ['Email', 'گزارش روزانه و هشدار', 'SMTP'],
+]
+
+function WorkflowCanvas({ selected }) {
+  return (
+    <article className="panel canvas">
+      <div className="node start">{selected.trigger}</div>
+      <div className="connector" />
+      <div className="node process">اعتبارسنجی و تبدیل داده</div>
+      <div className="connector" />
+      <div className="node end">{selected.target}</div>
+    </article>
+  )
+}
+
+function LogsPanel() {
+  return (
+    <article className="panel logs">
+      <div className="panel-head">
+        <div>
+          <p className="label">Run log</p>
+          <h2>آخرین اجرای آزمایشی</h2>
+        </div>
+        <span className="badge live">زنده</span>
+      </div>
+      {logs.map(([time, event, status]) => (
+        <div className="log-row" key={`${time}-${event}`}>
+          <time>{time}</time>
+          <span>{event}</span>
+          <strong>{status}</strong>
+        </div>
+      ))}
+    </article>
+  )
+}
+
 function App() {
   const [selected, setSelected] = useState(workflows[0])
   const [mode, setMode] = useState('عملیات')
@@ -53,7 +93,7 @@ function App() {
         </section>
       </header>
 
-      <section className="content-grid">
+      {mode === 'عملیات' && <section className="content-grid">
         <article className="panel flow-list">
           <div className="panel-head">
             <div>
@@ -78,13 +118,7 @@ function App() {
           </div>
         </article>
 
-        <article className="panel canvas">
-          <div className="node start">{selected.trigger}</div>
-          <div className="connector" />
-          <div className="node process">اعتبارسنجی و تبدیل داده</div>
-          <div className="connector" />
-          <div className="node end">{selected.target}</div>
-        </article>
+        <WorkflowCanvas selected={selected} />
 
         <article className="panel detail">
           <p className="label">جزئیات Workflow</p>
@@ -96,23 +130,55 @@ function App() {
           </dl>
         </article>
 
-        <article className="panel logs">
-          <div className="panel-head">
-            <div>
-              <p className="label">Run log</p>
-              <h2>آخرین اجرای آزمایشی</h2>
-            </div>
-            <span className="badge live">زنده</span>
-          </div>
-          {logs.map(([time, event, status]) => (
-            <div className="log-row" key={`${time}-${event}`}>
-              <time>{time}</time>
-              <span>{event}</span>
-              <strong>{status}</strong>
-            </div>
+        <LogsPanel />
+      </section>}
+
+      {mode === 'Workflow' && (
+        <section className="content-grid single">
+          <WorkflowCanvas selected={selected} />
+          <article className="panel recipe">
+            <p className="label">طراحی Workflow</p>
+            <h2>{selected.name}</h2>
+            {['تعریف Trigger', 'پاکسازی داده', 'ارسال به سرویس مقصد', 'ثبت لاگ و هشدار خطا'].map((item, index) => (
+              <div className="recipe-step" key={item}>
+                <span>{index + 1}</span>
+                <p>{item}</p>
+              </div>
+            ))}
+          </article>
+        </section>
+      )}
+
+      {mode === 'API' && (
+        <section className="api-grid">
+          {apiServices.map(([name, use, auth]) => (
+            <article className="panel api-card" key={name}>
+              <span>{name}</span>
+              <h2>{use}</h2>
+              <p>روش اتصال: {auth}</p>
+            </article>
           ))}
-        </article>
-      </section>
+        </section>
+      )}
+
+      {mode === 'گزارش' && (
+        <section className="content-grid single">
+          <LogsPanel />
+          <article className="panel report-panel">
+            <p className="label">گزارش عملکرد</p>
+            <h2>خلاصه ماهانه</h2>
+            <div className="report-bars">
+              {workflows.map((flow) => (
+                <div key={flow.name}>
+                  <span>{flow.name}</span>
+                  <i><b style={{ width: `${flow.health}%` }} /></i>
+                  <strong>{flow.health}%</strong>
+                </div>
+              ))}
+            </div>
+          </article>
+        </section>
+      )}
     </main>
   )
 }
