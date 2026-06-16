@@ -2,6 +2,11 @@
 
 یک نمونه کار فارسی برای نمایش طراحی و توسعه داشبورد پایش Workflow، Webhook و اتصال سرویس ها با رویکرد n8n و API Integration.
 
+## لینک ها
+
+- نسخه آنلاین: https://hoomko-automation-hub.vercel.app
+- مخزن GitHub: https://github.com/erenhooman31/hoomko-automation-hub
+
 ## قابلیت ها
 
 - نمایش Workflowهای فعال و سلامت اجرای آن ها
