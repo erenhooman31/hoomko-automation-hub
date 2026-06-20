@@ -22,6 +22,20 @@ const apiServices = [
   ['Email', 'گزارش روزانه و هشدار', 'SMTP'],
 ]
 
+function usePersistentState(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    const saved = window.localStorage.getItem(key)
+    return saved ? JSON.parse(saved) : initialValue
+  })
+
+  function updateValue(nextValue) {
+    setValue(nextValue)
+    window.localStorage.setItem(key, JSON.stringify(nextValue))
+  }
+
+  return [value, updateValue]
+}
+
 function WorkflowCanvas({ selected }) {
   return (
     <article className="panel canvas">
@@ -56,8 +70,9 @@ function LogsPanel() {
 }
 
 function App() {
-  const [selected, setSelected] = useState(workflows[0])
-  const [mode, setMode] = useState('عملیات')
+  const [selectedName, setSelectedName] = usePersistentState('automation-selected-workflow', workflows[0].name)
+  const [mode, setMode] = usePersistentState('automation-mode', 'عملیات')
+  const selected = workflows.find((flow) => flow.name === selectedName) || workflows[0]
 
   const successRate = useMemo(() => {
     const total = workflows.reduce((sum, flow) => sum + flow.health, 0)
@@ -66,12 +81,13 @@ function App() {
 
   return (
     <main className="shell" dir="rtl">
+      <a className="skip-link" href="#automation-content">رفتن به محتوای اصلی</a>
       <header className="hero">
-        <nav>
+        <nav aria-label="بخش های هاب اتوماسیون">
           <strong>هاب اتوماسیون</strong>
           <div>
             {['عملیات', 'Workflow', 'API', 'گزارش'].map((item) => (
-              <button className={mode === item ? 'active' : ''} key={item} onClick={() => setMode(item)} type="button">
+              <button aria-current={mode === item ? 'page' : undefined} className={mode === item ? 'active' : ''} key={item} onClick={() => setMode(item)} type="button">
                 {item}
               </button>
             ))}
@@ -93,6 +109,7 @@ function App() {
         </section>
       </header>
 
+      <div id="automation-content" tabIndex="-1">
       {mode === 'عملیات' && <section className="content-grid">
         <article className="panel flow-list">
           <div className="panel-head">
@@ -107,7 +124,7 @@ function App() {
               <button
                 className={selected.name === flow.name ? 'flow selected' : 'flow'}
                 key={flow.name}
-                onClick={() => setSelected(flow)}
+                onClick={() => setSelectedName(flow.name)}
                 type="button"
               >
                 <span>{flow.name}</span>
@@ -179,6 +196,7 @@ function App() {
           </article>
         </section>
       )}
+      </div>
     </main>
   )
 }
