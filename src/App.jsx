@@ -328,10 +328,11 @@ function OfferSection() {
 
 function PricingSection() {
   const plans = [
-    ['استاندارد', '۲,۴۹۰,۰۰۰', 'یک Workflow، تست سناریو، مستند تحویل'],
-    ['حرفه ای', '۴,۹۹۰,۰۰۰', 'سه Workflow، Retry، API mapping'],
+    ['استاندارد', 'تماس بگیرید', 'یک Workflow، تست سناریو، مستند تحویل'],
+    ['حرفه ای', 'تماس بگیرید', 'سه Workflow، Retry، API mapping'],
     ['سازمانی', 'تماس بگیرید', 'چند سرویس، مانیتورینگ، پشتیبانی اختصاصی'],
   ]
+  const goToContact = () => document.querySelector('.contact-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
   return (
     <section className="pricing-grid" aria-label="پکیج های فروش اتوماسیون">
@@ -340,7 +341,7 @@ function PricingSection() {
           <span>{name}</span>
           <strong>{price}</strong>
           <p>{text}</p>
-          <button className={index === 1 ? 'primary' : 'secondary'} type="button">انتخاب پلن</button>
+          <button className={index === 1 ? 'primary' : 'secondary'} type="button" onClick={goToContact}>انتخاب پلن</button>
         </article>
       ))}
     </section>
