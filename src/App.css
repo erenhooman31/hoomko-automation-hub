@@ -169,13 +169,30 @@ h2 {
 .live-proof,
 .offer-band,
 .problem-solution,
-.price-card {
+.price-card,
+.contact-panel {
   min-width: 0;
   padding: 22px;
   border: 1px solid #dbe5ea;
   border-radius: 8px;
   background: #fff;
   box-shadow: 0 12px 34px rgba(30, 64, 98, 0.05);
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid #cfdde4;
+  border-radius: 8px;
+  padding: 11px 12px;
+  color: #101828;
+  background: #fff;
+  font: inherit;
+}
+
+textarea {
+  resize: vertical;
+  line-height: 1.8;
 }
 
 .panel-head {
@@ -696,6 +713,24 @@ dd {
   font-weight: 800;
 }
 
+.contact-panel {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 18px;
+  margin-top: 18px;
+  padding: 24px;
+}
+
+.contact-panel p {
+  color: #53616c;
+  line-height: 1.9;
+}
+
+.contact-panel form {
+  display: grid;
+  gap: 10px;
+}
+
 @media (max-width: 920px) {
   .hero-grid,
   nav,
@@ -718,7 +753,8 @@ dd {
   }
 
   .problem-solution,
-  .pricing-grid {
+  .pricing-grid,
+  .contact-panel {
     grid-template-columns: 1fr;
   }
 

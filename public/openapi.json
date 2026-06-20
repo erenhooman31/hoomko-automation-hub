@@ -1,0 +1,31 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Hoomko Automation Hub API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Service and database mode health check",
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/workflow-run": {
+      "get": {
+        "summary": "Run demo workflow and optionally persist run log",
+        "responses": { "200": { "description": "Workflow run" } }
+      },
+      "post": {
+        "summary": "Run demo workflow and optionally persist run log",
+        "responses": { "200": { "description": "Workflow run" } }
+      }
+    },
+    "/api/contact": {
+      "post": {
+        "summary": "Create an automation buyer request",
+        "responses": { "201": { "description": "Stored" }, "202": { "description": "Accepted in demo mode" } }
+      }
+    }
+  }
+}

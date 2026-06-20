@@ -1,0 +1,14 @@
+{
+  "name": "Lead to CRM and SMS",
+  "nodes": [
+    { "parameters": { "path": "lead-intake", "method": "POST" }, "name": "Lead Webhook", "type": "n8n-nodes-base.webhook", "position": [0, 0] },
+    { "parameters": { "keepOnlySet": true, "values": { "string": [{ "name": "phone", "value": "={{$json.phone}}" }, { "name": "name", "value": "={{$json.name}}" }] } }, "name": "Normalize Payload", "type": "n8n-nodes-base.set", "position": [260, 0] },
+    { "parameters": { "url": "https://example.com/crm/leads", "method": "POST" }, "name": "Create CRM Lead", "type": "n8n-nodes-base.httpRequest", "position": [520, 0] },
+    { "parameters": { "url": "https://example.com/sms", "method": "POST" }, "name": "Send Sales SMS", "type": "n8n-nodes-base.httpRequest", "position": [780, 0] }
+  ],
+  "connections": {
+    "Lead Webhook": { "main": [[{ "node": "Normalize Payload", "type": "main", "index": 0 }]] },
+    "Normalize Payload": { "main": [[{ "node": "Create CRM Lead", "type": "main", "index": 0 }]] },
+    "Create CRM Lead": { "main": [[{ "node": "Send Sales SMS", "type": "main", "index": 0 }]] }
+  }
+}
