@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 
 const modes = ['عملیات', 'Workflow', 'API', 'گزارش']
@@ -71,6 +71,30 @@ function usePersistentState(key, initialValue) {
   }
 
   return [value, updateValue]
+}
+
+function useApiStatus(path) {
+  const [status, setStatus] = useState({ state: 'در حال بررسی', detail: 'اتصال API در حال تست است.' })
+
+  useEffect(() => {
+    let ignore = false
+    fetch(path)
+      .then((response) => {
+        if (!response.ok) throw new Error('API unavailable')
+        return response.json()
+      })
+      .then((payload) => {
+        if (!ignore) setStatus({ state: 'فعال', detail: `${payload.service} - ${payload.capabilities.join('، ')}` })
+      })
+      .catch(() => {
+        if (!ignore) setStatus({ state: 'دموی محلی', detail: 'روی Vercel endpoint زنده دارد؛ در لوکال با داده امن اجرا می شود.' })
+      })
+    return () => {
+      ignore = true
+    }
+  }, [path])
+
+  return status
 }
 
 function Toast({ message }) {
@@ -235,12 +259,111 @@ function ValueSection() {
   )
 }
 
+function ProductStory({ apiStatus }) {
+  return (
+    <section className="story-grid" aria-label="معرفی محصول اتوماسیون">
+      <article className="story-main">
+        <h2>اتوماسیون هایی که فردا قابل فروش و قابل توضیح هستند</h2>
+        <p>این محصول مسیر کامل از درد کسب و کار تا Workflow قابل اجرا را نشان می دهد: ورودی Webhook، تبدیل داده، Retry، Run history، Payload preview و طراحی آماده برای n8n.</p>
+      </article>
+      <article className="live-proof">
+        <span>وضعیت API</span>
+        <strong>{apiStatus.state}</strong>
+        <p>{apiStatus.detail}</p>
+      </article>
+    </section>
+  )
+}
+
+function ArchitectureSection() {
+  return (
+    <section className="architecture">
+      <div>
+        <h2>معماری اتوماسیون</h2>
+        <p>یک مسیر قابل توسعه برای Webhook، Validation، Transform، Dispatch، Logging و Retry بدون ذخیره کلید واقعی در مخزن.</p>
+      </div>
+      {['Webhook', 'Validate', 'Transform', 'Dispatch', 'Retry Log'].map((item, index) => (
+        <div className="arch-node" key={item}>
+          <span>{index + 1}</span>
+          <strong>{item}</strong>
+        </div>
+      ))}
+    </section>
+  )
+}
+
+function ProblemSolutionSection() {
+  const problems = ['پیگیری دستی لید', 'ارسال پیامک نامطمئن', 'گزارش فروش دستی', 'خطای Sync بین سیستم ها']
+  const solutions = ['Webhook آماده', 'Retry و Run history', 'گزارش خودکار', 'Workflow قابل اتصال به n8n']
+
+  return (
+    <section className="problem-solution" aria-label="مشکل و راه حل اتوماسیون">
+      <div>
+        <h2>مشکل کسب و کار</h2>
+        {problems.map((item) => <p key={item}>{item}</p>)}
+      </div>
+      <div>
+        <h2>راه حل آماده فروش</h2>
+        {solutions.map((item) => <p key={item}>{item}</p>)}
+      </div>
+    </section>
+  )
+}
+
+function OfferSection() {
+  return (
+    <section className="offer-band" aria-label="پیشنهاد فروش اتوماسیون">
+      <div>
+        <h2>پکیج آماده اتوماسیون برای مشتری</h2>
+        <p>تحلیل فرآیند، طراحی Workflow، اتصال Webhook/API، تست خطا، مستند تحویل و آموزش استفاده برای تیم فروش یا عملیات.</p>
+      </div>
+      <ul>
+        <li>تحویل سناریوی اول در ۲ تا ۴ روز کاری</li>
+        <li>آماده اتصال به CRM، SMS، Email و Payment</li>
+        <li>مستند n8n-ready برای توسعه بعدی</li>
+      </ul>
+    </section>
+  )
+}
+
+function PricingSection() {
+  const plans = [
+    ['استاندارد', '۲,۴۹۰,۰۰۰', 'یک Workflow، تست سناریو، مستند تحویل'],
+    ['حرفه ای', '۴,۹۹۰,۰۰۰', 'سه Workflow، Retry، API mapping'],
+    ['سازمانی', 'تماس بگیرید', 'چند سرویس، مانیتورینگ، پشتیبانی اختصاصی'],
+  ]
+
+  return (
+    <section className="pricing-grid" aria-label="پکیج های فروش اتوماسیون">
+      {plans.map(([name, price, text], index) => (
+        <article className={index === 1 ? 'price-card featured' : 'price-card'} key={name}>
+          <span>{name}</span>
+          <strong>{price}</strong>
+          <p>{text}</p>
+          <button className={index === 1 ? 'primary' : 'secondary'} type="button">انتخاب پلن</button>
+        </article>
+      ))}
+    </section>
+  )
+}
+
+function SuiteLinks() {
+  return (
+    <section className="suite-links" aria-label="دیگر محصولات Hoomko">
+      <a href="https://hoomko-commerce-ops.vercel.app">داشبورد فروشگاه</a>
+      <a href="https://hoomko-client-portal.vercel.app">پرتال مشتریان</a>
+      <a href="https://github.com/erenhooman31/hoomko-automation-hub">GitHub</a>
+    </section>
+  )
+}
+
 function App() {
   const [selectedName, setSelectedName] = usePersistentState('automation-selected-workflow', workflows[0].name)
   const [mode, setMode] = usePersistentState('automation-mode', 'عملیات')
   const [runState, setRunState] = usePersistentState('automation-run-state', { steps: {}, history: [] })
   const [selectedPain, setSelectedPain] = usePersistentState('automation-pain', painPoints[0].key)
   const [toast, setToast] = useState('')
+  const apiStatus = useApiStatus('/api/health')
   const selected = workflows.find((flow) => flow.name === selectedName) || workflows[0]
 
   function notify(message) {
@@ -287,6 +410,8 @@ function App() {
       <div id="automation-content" tabIndex="-1">
         {mode === 'عملیات' && (
           <>
+            <ProductStory apiStatus={apiStatus} />
+            <ProblemSolutionSection />
             <section className="content-grid">
               <article className="panel flow-list">
                 <div className="panel-head">
@@ -326,7 +451,11 @@ function App() {
 
               <HistoryPanel history={runState.history} />
             </section>
+            <ArchitectureSection />
+            <OfferSection />
+            <PricingSection />
             <ValueSection />
+            <SuiteLinks />
           </>
         )}
 

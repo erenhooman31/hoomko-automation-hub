@@ -1,9 +1,7 @@
 .shell {
   min-height: 100vh;
   padding: 26px;
-  background:
-    linear-gradient(135deg, rgba(0, 146, 112, 0.12), transparent 36%),
-    #f6f8fb;
+  background: #f6fafb;
   color: #101828;
   text-align: right;
 }
@@ -55,7 +53,7 @@ a:focus-visible,
   border: 1px solid #dbe5ea;
   border-radius: 8px;
   background: #fff;
-  box-shadow: 0 22px 70px rgba(30, 64, 98, 0.08);
+  box-shadow: 0 12px 36px rgba(30, 64, 98, 0.05);
 }
 
 nav,
@@ -166,13 +164,18 @@ h2 {
 }
 
 .panel,
-.value-panel {
+.value-panel,
+.story-main,
+.live-proof,
+.offer-band,
+.problem-solution,
+.price-card {
   min-width: 0;
   padding: 22px;
   border: 1px solid #dbe5ea;
   border-radius: 8px;
   background: #fff;
-  box-shadow: 0 18px 60px rgba(30, 64, 98, 0.06);
+  box-shadow: 0 12px 34px rgba(30, 64, 98, 0.05);
 }
 
 .panel-head {
@@ -522,6 +525,177 @@ dd {
   line-height: 1.9;
 }
 
+.story-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.story-main,
+.live-proof,
+.offer-band {
+  padding: 24px;
+}
+
+.story-main h2,
+.architecture h2,
+.offer-band h2 {
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.story-main p,
+.architecture p,
+.offer-band p,
+.live-proof p {
+  color: #53616c;
+  line-height: 1.9;
+}
+
+.live-proof {
+  background: #102a2a;
+  color: #eafffb;
+}
+
+.live-proof span {
+  color: #99f6e4;
+}
+
+.live-proof strong {
+  display: block;
+  margin: 10px 0;
+  font-size: 34px;
+}
+
+.live-proof p {
+  color: #d8fffa;
+}
+
+.architecture {
+  display: grid;
+  grid-template-columns: 1.3fr repeat(5, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+  padding: 22px;
+  border-radius: 8px;
+  background: #102a2a;
+  color: #eafffb;
+}
+
+.architecture p {
+  color: #d8fffa;
+}
+
+.arch-node {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  min-height: 120px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+}
+
+.arch-node span {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: #2dd4bf;
+  color: #102a2a;
+  font-weight: 800;
+}
+
+.offer-band {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 18px;
+  background: #effdfa;
+}
+
+.offer-band ul {
+  margin: 0;
+  padding: 0 20px 0 0;
+  color: #0f2930;
+  line-height: 2;
+}
+
+.problem-solution {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 18px;
+  padding: 24px;
+}
+
+.problem-solution div {
+  display: grid;
+  gap: 10px;
+}
+
+.problem-solution h2 {
+  margin-bottom: 6px;
+}
+
+.problem-solution p {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #0f2930;
+  background: #effdfa;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.price-card {
+  display: grid;
+  gap: 12px;
+  padding: 22px;
+}
+
+.price-card.featured {
+  border-color: #0f766e;
+  background: #effdfa;
+}
+
+.price-card span {
+  color: #0f766e;
+  font-weight: 800;
+}
+
+.price-card strong {
+  font-size: 30px;
+}
+
+.price-card p {
+  color: #53616c;
+  line-height: 1.8;
+}
+
+.suite-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0 0;
+}
+
+.suite-links a {
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #0f2930;
+  background: #e5fbf7;
+  text-decoration: none;
+  font-weight: 800;
+}
+
 @media (max-width: 920px) {
   .hero-grid,
   nav,
@@ -536,7 +710,15 @@ dd {
   .payload-grid,
   .wizard-grid,
   .report-bars div,
-  .runner-step {
+  .runner-step,
+  .story-grid,
+  .architecture,
+  .offer-band {
+    grid-template-columns: 1fr;
+  }
+
+  .problem-solution,
+  .pricing-grid {
     grid-template-columns: 1fr;
   }
 

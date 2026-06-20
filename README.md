@@ -25,11 +25,18 @@
 - پیش نمایش Payload ورودی Webhook/API و خروجی تبدیل شده
 - Wizard پیشنهاد اتوماسیون بر اساس مشکل کسب و کار
 - گزارش سلامت Workflowها و تاریخچه اجرا
+- Vercel Function برای health check و اجرای دمو Workflow
+- بخش معماری اتوماسیون، پکیج فروش و لینک به محصولات دیگر مجموعه Hoomko
 - پشتیبانی از SEO، RTL، skip link و فوکوس قابل مشاهده برای کیبورد
 
 ### فناوری ها
 
-React، Vite، CSS، `@fontsource/vazirmatn`، داده های نمونه امن و بدون کلید API واقعی.
+React، Vite، CSS، `@fontsource/vazirmatn`، Vercel Functions، داده های نمونه امن و بدون کلید API واقعی.
+
+### API دمو
+
+- `GET /api/health`
+- `GET|POST /api/workflow-run`
 
 ## اجرای محلی
 
